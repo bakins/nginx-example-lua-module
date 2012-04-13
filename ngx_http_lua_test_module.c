@@ -36,10 +36,10 @@ ngx_module_t ngx_http_lua_test_module = {
 static int get_uri(lua_State * L)
 {
     ngx_http_request_t *r;
-    lua_getglobal(L, GLOBALS_SYMBOL_REQUEST);
-    r = lua_touserdata(L, -1);
-    lua_pop(L, 1);
-    lua_pushlstring(L, r->uri.data, r->uri.len);
+
+    r = ngx_http_lua_get_request(L);
+    lua_pushlstring(L, (const char *)r->uri.data, r->uri.len);
+
     return 1;
 }
 
