@@ -2,14 +2,14 @@
 #include <ngx_http.h>
 #include "ngx_http_lua_util.h"
 
-ngx_module_t ngx_http_lua_test_module;
+ngx_module_t ngx_http_lua_example_module;
 
 static ngx_int_t
-ngx_http_lua_test_init(ngx_conf_t *cf);
+ngx_http_lua_example_init(ngx_conf_t *cf);
 
-static ngx_http_module_t ngx_http_lua_test_ctx = {
+static ngx_http_module_t ngx_http_lua_example_ctx = {
     NULL, /* preconfiguration */
-    ngx_http_lua_test_init, /* postconfiguration */
+    ngx_http_lua_example_init, /* postconfiguration */
     NULL, /* create main configuration */
     NULL, /* init main configuration */
     NULL, /* create server configuration */
@@ -18,9 +18,9 @@ static ngx_http_module_t ngx_http_lua_test_ctx = {
     NULL /* merge location configuration */
 };
 
-ngx_module_t ngx_http_lua_test_module = {
+ngx_module_t ngx_http_lua_example_module = {
     NGX_MODULE_V1,
-    &ngx_http_lua_test_ctx, /* module context */
+    &ngx_http_lua_example_ctx, /* module context */
     NULL, /* module directives */
     NGX_HTTP_MODULE, /* module type */
     NULL, /* init master */
@@ -43,7 +43,7 @@ static int get_uri(lua_State * L)
     return 1;
 }
 
-static int luaopen_nginx_test(lua_State * L)
+static int luaopen_nginx_example(lua_State * L)
 {
     lua_createtable(L, 0, 1);
     lua_pushcfunction(L, get_uri);
@@ -52,8 +52,8 @@ static int luaopen_nginx_test(lua_State * L)
 }
 
 static ngx_int_t
-ngx_http_lua_test_init(ngx_conf_t *cf)
+ngx_http_lua_example_init(ngx_conf_t *cf)
 {
-    ngx_http_lua_add_preload(cf, "nginx.test", luaopen_nginx_test);
+    ngx_http_lua_add_preload(cf, "nginx.example", luaopen_nginx_example);
     return NGX_OK;
 }
