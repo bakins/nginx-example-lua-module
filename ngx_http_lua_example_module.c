@@ -43,11 +43,28 @@ static int get_uri(lua_State * L)
     return 1;
 }
 
+static int get_host(lua_State * L)
+{
+    ngx_http_request_t *r;
+
+    r = ngx_http_lua_get_request(L);
+
+    if (r->headers_in.host && r->headers_in.host->value.data) {
+        lua_pushlstring(L, (const char *)r->headers_in.host->value.data, r->headers_in.host->value.len);
+    } else {
+        lua_pushnil(L);
+    }
+
+    return 1;
+}
+
 static int luaopen_nginx_example(lua_State * L)
 {
     lua_createtable(L, 0, 1);
     lua_pushcfunction(L, get_uri);
     lua_setfield(L, -2, "get_uri");
+    lua_pushcfunction(L, get_host);
+    lua_setfield(L, -2, "get_host");
     return 1;
 }
 
