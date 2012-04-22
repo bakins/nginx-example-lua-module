@@ -1,6 +1,6 @@
 #include <ngx_core.h>
 #include <ngx_http.h>
-#include "ngx_http_lua_util.h"
+#include "ngx_http_lua_api.h"
 
 ngx_module_t ngx_http_lua_example_module;
 
@@ -54,6 +54,6 @@ static int luaopen_nginx_example(lua_State * L)
 static ngx_int_t
 ngx_http_lua_example_init(ngx_conf_t *cf)
 {
-    ngx_http_lua_add_preload(cf, "nginx.example", luaopen_nginx_example);
+    ngx_http_lua_add_package_preload(cf, "nginx.example", luaopen_nginx_example);
     return NGX_OK;
 }
